@@ -1,0 +1,8 @@
+
+android/.gradle/*
+android/.idea/*
+android/app/build/*
+node_modules
+ios/Pods/*
+yarn.lock
+ios/Podfile.lock
