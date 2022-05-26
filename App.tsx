@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   EmitterSubscription,
@@ -7,6 +7,7 @@ import {
   Platform,
   SafeAreaView,
   StatusBar,
+  Text,
   useColorScheme,
   View,
 } from 'react-native';
@@ -14,9 +15,15 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCount } from './src/app/redux/actions/changeCountAction';
+import { RootState } from './src/app/redux/store';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const counter = useSelector((state: RootState) => state.count.count)
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -73,6 +80,12 @@ const App = () => {
         <Button
           title='Event Emitter Function'
           onPress={() => NativeModules.NativeAppModule.emitMeEvent()} />
+
+        <Button title={'Increment count'} onPress={() => {          
+          dispatch(changeCount(counter+1))
+        }}/>
+        <Button title={'Decrement count'} onPress={() => {dispatch(changeCount(counter-1))}} />
+        <Text style={{textAlign: 'center', marginTop: 60}}>{`Count: ${counter}`}</Text>
       </View>
     </SafeAreaView>
   );
