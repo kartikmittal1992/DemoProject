@@ -17,13 +17,15 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCount } from './src/app/redux/actions/changeCountAction';
-import { RootState } from './src/app/redux/store';
+import { hitTestApi } from './src/app/redux/actions/hitApiAction';
+import { AppDispatch, RootState } from './src/app/redux/store';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [count, setCount] = useState(0);
-  const dispatch = useDispatch();
+  const dispatch : AppDispatch = useDispatch();
   const counter = useSelector((state: RootState) => state.count.count)
+  const apiData = useSelector((state: RootState) => state.apiReducer)
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -80,13 +82,18 @@ const App = () => {
         <Button
           title='Event Emitter Function'
           onPress={() => NativeModules.NativeAppModule.emitMeEvent()} />
-
+        <View style={{backgroundColor: 'red', height: 10}}></View>
         <Button title={'Increment count'} onPress={() => {          
           dispatch(changeCount(counter+1))
         }}/>
         <Button title={'Decrement count'} onPress={() => {dispatch(changeCount(counter-1))}} />
-        <Text style={{textAlign: 'center', marginTop: 60}}>{`Count: ${counter}`}</Text>
+        <Text style={{textAlign: 'center', marginTop: 20}}>{`Count: ${counter}`}</Text>
       </View>
+      <View style={{backgroundColor: 'red', height: 10}}></View>
+      <Button title={'Hit api'} onPress={async () => {
+        const result = await dispatch(hitTestApi());        
+      }} />
+      <Text style={{textAlign: 'center', marginTop: 20}}>{`API Data: ${JSON.stringify(apiData)}`}</Text>
     </SafeAreaView>
   );
 };

@@ -5,7 +5,6 @@ const initialCounterState = {
 }
 
 const countReducer = (state = initialCounterState, action: any) => {
-  console.log("ggg"+JSON.stringify(action));
   switch (action.type) {
     case CHANGE_COUNT:
       return {
