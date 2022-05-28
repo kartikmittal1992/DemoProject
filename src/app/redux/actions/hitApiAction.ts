@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { call, delay, put } from "redux-saga/effects";
 import { ThunkDispatch } from "redux-thunk";
 import { getPostsFromApiAsync } from "../../services/apiService";
 import { API_FAILURE, API_REQUEST, API_SUCCESS } from "../constants";
@@ -15,4 +16,10 @@ export function hitTestApi(){
       return dispatch({type: API_FAILURE, payload: JSON.stringify(e)})
     }
   }
+}
+
+export function* hitSagaTestApi(action: any): Generator<any>{
+  const response = yield call(getPostsFromApiAsync);
+  yield delay(1000);
+  yield put({type: API_SUCCESS,payload: response});
 }

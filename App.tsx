@@ -17,7 +17,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCount } from './src/app/redux/actions/changeCountAction';
-import { hitTestApi } from './src/app/redux/actions/hitApiAction';
+import { hitSagaTestApi, hitTestApi } from './src/app/redux/actions/hitApiAction';
+import { API_REQUEST } from './src/app/redux/constants';
 import { AppDispatch, RootState } from './src/app/redux/store';
 
 const App = () => {
@@ -91,7 +92,8 @@ const App = () => {
       </View>
       <View style={{backgroundColor: 'red', height: 10}}></View>
       <Button title={'Hit api'} onPress={async () => {
-        const result = await dispatch(hitTestApi());        
+        const result = await dispatch(hitTestApi()); //for thunk
+        dispatch({type: API_REQUEST});       
       }} />
       <Text style={{textAlign: 'center', marginTop: 20}}>{`API Data: ${JSON.stringify(apiData)}`}</Text>
     </SafeAreaView>
