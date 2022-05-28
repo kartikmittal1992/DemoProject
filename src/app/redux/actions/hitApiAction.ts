@@ -1,3 +1,4 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AnyAction } from "redux";
 import { call, delay, put } from "redux-saga/effects";
 import { ThunkDispatch } from "redux-thunk";
@@ -23,3 +24,8 @@ export function* hitSagaTestApi(action: any): Generator<any>{
   yield delay(1000);
   yield put({type: API_SUCCESS,payload: response});
 }
+
+export const hitToolkitTestApi = createAsyncThunk('apiReducer', async () => {
+  const apiRequest = await getPostsFromApiAsync();
+  return apiRequest;
+}) 
